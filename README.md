@@ -21,3 +21,12 @@ Method and loop: `docs/study-loop.md`.
 openocd -f tools/openocd.cfg
 arm-none-eabi-gdb -x tools/gdbinit
 ```
+
+## Study site
+Every push to `main` rebuilds a static site from this repo (GitHub Actions → GitHub Pages):
+- each `NN-topic/README.md` becomes a topic page, each `notes.md` a sub-chunk page
+- progress comes from the `Status:` checkboxes at the top of each `notes.md` (all ticked = done)
+- `docs/*.md` become reference pages (material, the study loop)
+- `boards/NN-*.html` are the illustration boards, linked from the matching topic
+
+Build it locally: `pip install markdown && python site/build.py`, then open `_site/index.html`.

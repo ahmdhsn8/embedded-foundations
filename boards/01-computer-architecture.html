@@ -1,0 +1,302 @@
+<title>Computer Architecture Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: same engineering sketchpad as the Parameter Estimation Board. Green grid paper, hand-lettered chapters, one chapter per sub-chunk, panels that start dashed ("to fill") and get filled as we study. */
+:root{
+  --paper:#eef4e9; --grid:#d3e3cc; --ink:#2b3034; --soft:#5d676b; --red:#cf3b36; --blue:#2c5cad; --green:#2d8a55; --orange:#dd7a1f; --hi:#ffe45c; --card:#f8fbf5;
+  --hand:"Caveat Brush","Comic Sans MS",cursive; --body:"Patrick Hand","Comic Sans MS",cursive,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1b2420; --grid:#26332c; --ink:#e7eee4; --soft:#a9b6ac; --red:#f07a72; --blue:#86aef0; --green:#6fd09a; --orange:#f2a65a; --hi:#7a6a12; --card:#1f2a25; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1b2420; --grid:#26332c; --ink:#e7eee4; --soft:#a9b6ac; --red:#f07a72; --blue:#86aef0; --green:#6fd09a; --orange:#f2a65a; --hi:#7a6a12; --card:#1f2a25; color-scheme:dark}
+body{background-color:var(--paper);color:var(--ink);font-family:var(--body);font-size:19px;line-height:1.4;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:38px}
+h1,h2,h3{font-family:var(--hand);font-weight:400;margin:0;text-wrap:balance;line-height:1.1}
+h1{font-size:clamp(2.4rem,6vw,4rem)}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);color:var(--blue)}
+h3{font-size:1.6rem}
+p{margin:0}
+a{color:var(--blue)}
+code{font-size:.88em;background:color-mix(in srgb,var(--grid) 70%,transparent);padding:0 4px;border-radius:3px;overflow-wrap:anywhere}
+.hero{display:grid;gap:8px}
+.hero p{max-width:62ch;color:var(--soft)}
+.tag{font-family:var(--hand);font-size:1.15rem;color:var(--red);letter-spacing:.03em}
+mark{background:linear-gradient(100deg,transparent 2%,var(--hi) 6%,var(--hi) 94%,transparent 98%);color:inherit;padding:0 3px}
+.chapter{display:grid;gap:16px;scroll-margin-top:16px}
+.chead{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:22px}
+.panel{position:relative;background:var(--card);border:2px solid var(--ink);border-radius:12px 4px 14px 5px;padding:20px 22px 22px;display:grid;gap:10px;align-content:start;min-width:0}
+.panel.wide{grid-column:1/-1}
+.panel.todo{background:transparent;border-style:dashed;border-color:var(--soft);color:var(--soft)}
+.panel.todo h3{color:var(--soft)}
+ul,ol{margin:0;padding-left:24px;display:grid;gap:4px}
+.menu{list-style:none;padding:0;display:grid;gap:6px}
+.stamp{margin-right:6px;font-family:var(--hand);font-size:1.05rem;border:2px solid currentColor;border-radius:4px;padding:0 7px;transform:rotate(-4deg);display:inline-block;white-space:nowrap}
+.yes{color:var(--green)}.later{color:var(--orange)}.no{color:var(--soft)}.check{color:var(--red)}
+.small{font-size:.95rem;color:var(--soft)}
+.calc{font-family:var(--hand);font-size:1.15rem;color:var(--blue);line-height:1.35;border-left:3px solid var(--blue);padding-left:12px;display:grid;gap:2px;overflow-wrap:anywhere}
+.calc b{color:var(--red);font-weight:400}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}
+.doodle{width:100%;height:auto;display:block;max-width:100%}
+.doodle *{vector-effect:non-scaling-stroke}
+
+/* progress strip */
+.progress{display:grid;gap:10px}
+.dots{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:14px}
+.dots li{position:relative;background:var(--card);border:2px solid var(--ink);border-radius:10px 4px 12px 5px;padding:12px 10px 10px;font-size:1rem;min-width:0}
+.dots li a{color:inherit;text-decoration:none;display:block}
+.dots li b{position:absolute;top:-14px;left:-8px;width:32px;height:32px;border-radius:50%;background:var(--card);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--hand);font-size:1.2rem;font-weight:400}
+.dots li.done b{background:var(--green);color:#fff;border-color:var(--green)}
+.dots li.now b{background:var(--hi)}
+.dots .st{display:block;font-family:var(--hand);font-size:1rem;margin-top:4px;color:var(--soft)}
+.dots li.done .st{color:var(--green)}
+.dots li.now .st{color:var(--orange)}
+
+/* outcomes + lab strips */
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:18px;counter-reset:step}
+.steps li{position:relative;background:var(--card);border:2px solid var(--ink);border-radius:10px 4px 12px 5px;padding:14px 12px 14px;counter-increment:step;min-width:0;font-size:1.02rem}
+.steps li::before{content:counter(step);position:absolute;top:-14px;left:-10px;width:32px;height:32px;border-radius:50%;background:var(--hi);color:#2b3034;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--hand);font-size:1.25rem}
+.lo{display:grid;gap:6px;list-style:none;padding:0}
+.lo li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline}
+.lo .n{font-family:var(--hand);color:var(--red)}
+.table{overflow-x:auto}
+.table table{border-collapse:collapse;width:100%;font-size:1rem}
+.table th,.table td{border-bottom:2px dashed var(--grid);padding:6px 8px;text-align:left;vertical-align:top}
+.table th{font-family:var(--hand);font-size:1.1rem;font-weight:400;color:var(--red)}
+.next{font-family:var(--hand);font-size:1.5rem;text-align:center;color:var(--green)}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="tag">topic 1 of 7 · computer architecture · NUCLEO-F446RE (Cortex-M4F)</span>
+    <h1>What is the chip actually doing?</h1>
+    <p>A sketchbook for the first topic on the roadmap. Eight sub-chunks, in order. Each one has the same panels: a <mark>picture</mark>, the <mark>key ideas</mark>, exact <mark>reading</mark>, hands-on <mark>practice</mark>, <mark>interview questions</mark> and a 5-line <mark>explain-it-back</mark>. Dashed panels are still empty; we fill them as we study.</p>
+  </header>
+
+  <section class="chapter progress" id="progress">
+    <span class="tag">progress</span>
+    <h2 id="count">0 of 8 sub-chunks done</h2>
+    <ol class="dots" id="dots"></ol>
+  </section>
+
+  <section class="chapter">
+    <span class="tag">the goal</span>
+    <h2>Ten things you can do at the end</h2>
+    <div class="grid">
+      <article class="panel wide">
+        <ol class="lo" id="los"></ol>
+      </article>
+    </div>
+  </section>
+
+  <section class="chapter" id="material">
+    <span class="tag">the shelf</span>
+    <h2>Material</h2>
+    <p class="small">Explanatory reading builds the picture. The manuals are the ground truth. Check section numbers against your own edition, they shift between editions.</p>
+    <div class="grid">
+      <article class="panel">
+        <h3>Main text</h3>
+        <ul>
+          <li><b>Harris &amp; Harris, <i>Digital Design and Computer Architecture: ARM Edition</i></b>. The architecture, microarchitecture and memory-system chapters (about 6, 7 and 8). Main source for sub-chunks 1, 3, 6, 7.</li>
+          <li><b>Patterson &amp; Hennessy, <i>Computer Organization and Design: ARM Edition</i></b>. Backup and depth for the processor, pipelining and caches.</li>
+        </ul>
+      </article>
+      <article class="panel">
+        <h3>Embedded-specific</h3>
+        <ul>
+          <li><b>Yiu, <i>The Definitive Guide to ARM Cortex-M3/M4</i></b>. Registers, memory map, stack, instruction set, exceptions. Main source for sub-chunks 2, 4, 5.</li>
+          <li><b>Memfault Interrupt, "From Zero to main()"</b>. Free blog series on startup, linker scripts and memory layout. Sub-chunk 5.</li>
+          <li><b>AAPCS</b> (ARM Procedure Call Standard, free PDF from ARM). Sub-chunk 2.</li>
+        </ul>
+      </article>
+      <article class="panel">
+        <h3>Ground truth (free PDFs)</h3>
+        <ul>
+          <li><b>RM0390</b>: memory organization, boot configuration, flash interface (wait states, ART accelerator).</li>
+          <li><b>PM0214</b>: core registers, memory model, instruction set.</li>
+          <li><b>STM32F446 datasheet</b>: clock limits against wait states.</li>
+          <li><b>Cortex-M4 Technical Reference Manual</b>: the 3-stage pipeline and the DWT cycle counter.</li>
+        </ul>
+      </article>
+      <article class="panel">
+        <h3>Tools</h3>
+        <ul>
+          <li><code>arm-none-eabi-gcc</code>, <code>objdump</code>, <code>nm</code>, <code>size</code></li>
+          <li>OpenOCD + <code>arm-none-eabi-gdb</code> (ST-LINK is built into the Nucleo)</li>
+          <li>Pen and paper for the hand traces</li>
+          <li>Optional later: a scope or logic analyzer to cross-check cycle counts with a GPIO toggle</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <div id="chapters" style="display:contents"></div>
+
+  <section class="chapter" id="lab">
+    <span class="tag">the lab · sub-chunk 8 project</span>
+    <h2>Cycle-counting lab</h2>
+    <p class="small">One short program, one table of measurements, and an explanation for every number. Status: not started.</p>
+    <ol class="steps">
+      <li><b>Turn on the counter.</b> Set TRCENA in <code>DEMCR</code>, reset <code>DWT_CYCCNT</code>, set CYCCNTENA in <code>DWT_CTRL</code>. Read it before and after the code under test.</li>
+      <li><b>Measure the empty gap.</b> Two reads back to back. Subtract this overhead from every later number.</li>
+      <li><b>Arithmetic.</b> Integer add, multiply, divide. Then float add, multiply, divide with the FPU on, and once with it off.</li>
+      <li><b>Memory.</b> Aligned vs unaligned word reads. Loop in flash vs the same loop copied to RAM.</li>
+      <li><b>Wait states.</b> Same loop at 0 to 5 wait states, with and without the instruction cache and prefetch.</li>
+      <li><b>Control loop.</b> A fixed-point PID step vs a float PID step. Cycles per call, and the jitter over 1000 calls.</li>
+    </ol>
+    <article class="panel wide">
+      <h3>Results table</h3>
+      <div class="table"><table>
+        <thead><tr><th>Test</th><th>Predicted cycles</th><th>Measured</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>empty read gap</td><td></td><td></td><td></td></tr>
+          <tr><td>int multiply / divide</td><td></td><td></td><td></td></tr>
+          <tr><td>float multiply / divide</td><td></td><td></td><td></td></tr>
+          <tr><td>aligned vs unaligned load</td><td></td><td></td><td></td></tr>
+          <tr><td>flash vs RAM loop</td><td></td><td></td><td></td></tr>
+          <tr><td>wait states 0 to 5, cache on/off</td><td></td><td></td><td></td></tr>
+          <tr><td>PID step: fixed vs float</td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table></div>
+      <p class="small"><b>Done when:</b> every measured number has a written reason that comes from the architecture, not from guessing.</p>
+    </article>
+  </section>
+
+  <section class="chapter" id="bank">
+    <span class="tag">interview bank</span>
+    <h2>Questions collected so far</h2>
+    <article class="panel todo wide" id="bankbox"><p>Empty. Each sub-chunk adds its questions here as we finish it.</p></article>
+  </section>
+
+  <p class="next">next up: sub-chunk 1, the CPU as a machine</p>
+</div>
+
+<script>
+/* Edit this data as we study. A field left empty renders as a dashed "to fill" panel. */
+var BOARD = {
+  los: [
+    "Explain fetch, decode, execute, and what the PC, SP, LR and flags do.",
+    "Name the Cortex-M4 registers and the calling convention (R0-R3 args, R4-R11 callee-saved). Read a short Thumb-2 disassembly.",
+    "Explain load/store architecture, and why every peripheral register access is a memory read or write.",
+    "Read the STM32F446 memory map: flash, SRAM, peripherals, bit-banding.",
+    "Explain the stack and heap: what a call pushes, and how overflow corrupts memory.",
+    "Explain endianness, alignment and word size, and predict a misaligned access.",
+    "Explain pipelining, hazards, and why a branch costs cycles.",
+    "Explain flash wait states, the ART accelerator, and why RAM vs flash execution differs.",
+    "Estimate and measure cycles per instruction, and say why that matters for a control loop.",
+    "Explain how .text, .data and .bss map onto flash and RAM."
+  ],
+  chunks: [
+    { title: "The CPU as a machine", sub: "fetch, decode, execute", los: "LO 1", status: "todo",
+      picture: "A doodle of the loop: PC points at memory, instruction comes back, decoder lights up the ALU or a register, PC moves on.",
+      ideas: [],
+      read: ["Harris &amp; Harris: the single-cycle processor (datapath + control), chapter 7 start.", "Patterson &amp; Hennessy: \"The Processor\" chapter, same topic, as a second angle.", "PM0214: the first pages of the programmer's model."],
+      practice: ["Pick 5 Thumb instructions. On paper, trace PC and every register after each one.", "Optional on the board: single-step with <code>stepi</code> in GDB and watch PC and R0-R3 change."],
+      done: "You can trace a 5-instruction program by hand and match it to GDB.",
+      qs: [], note: "" },
+    { title: "Registers and the Cortex-M4 programmer's model", sub: "R0-R12, SP, LR, PC, flags", los: "LO 2", status: "todo",
+      picture: "A doodle of the register file: R0-R3 args, R4-R11 saved, R12, SP, LR, PC, xPSR with its flag bits.",
+      ideas: [],
+      read: ["PM0214: core registers, xPSR flags, the two stack pointers (MSP, PSP).", "Yiu: the registers chapter.", "AAPCS: argument passing and callee-saved registers."],
+      practice: ["Write a C function with 6 integer arguments. Compile with <code>-S</code>. Predict which args use registers and which use the stack, then check.", "In GDB run <code>info registers</code> before and after a call."],
+      done: "You can predict where each argument and the return value live for any small function.",
+      qs: [], note: "" },
+    { title: "Instructions and Thumb-2", sub: "C to assembly", los: "LO 2, 3", status: "todo",
+      picture: "A doodle of one C line next to the 2 or 3 instructions it becomes, with load and store arrows to memory.",
+      ideas: [],
+      read: ["PM0214: instruction set summary (load/store, arithmetic, branch).", "Yiu: the instruction set chapters.", "Harris &amp; Harris: the ARM assembly language section of the architecture chapter."],
+      practice: ["Compile five tiny C functions (sum loop, array copy, struct access, if/else, function pointer call) with <code>-O0</code> and <code>-O2</code>.", "Annotate every instruction with a comment. Use <code>arm-none-eabi-objdump -d</code>."],
+      done: "You can annotate a 10-line function's assembly with no help.",
+      qs: [], note: "" },
+    { title: "Memory and the STM32F446 memory map", sub: "flash, SRAM, peripherals", los: "LO 3, 4", status: "todo",
+      picture: "A doodle of the 4 GB address line with flash, SRAM, peripheral and core regions marked with their start addresses.",
+      ideas: [],
+      read: ["RM0390: memory organization and the register boundary address table; boot configuration.", "PM0214: the memory model (regions, bit-banding).", "Yiu: the memory system chapter."],
+      practice: ["Toggle the Nucleo LED from GDB with no program logic. Enable the GPIOA clock at <code>0x40023830</code> (RCC AHB1ENR bit 0), set pin 5 as output in <code>0x40020000</code> (GPIOA MODER), then write bit 5 of <code>0x40020014</code> (GPIOA ODR).", "Draw the memory map from RM0390 with real addresses."],
+      done: "The LED toggles from GDB memory writes alone, and you can say why that works.",
+      qs: [], note: "" },
+    { title: "Stack, heap and data layout", sub: "endianness, alignment, .text .data .bss", los: "LO 5, 6, 10", status: "todo",
+      picture: "A doodle of RAM with the stack growing down from the top, the heap growing up, and .data and .bss at the bottom, flash holding .text and the .data initial values.",
+      ideas: [],
+      read: ["Memfault Interrupt: the \"From Zero to main()\" posts on memory layout.", "Yiu: the stack and exception stack frame sections.", "PM0214: unaligned access behavior."],
+      practice: ["Print the addresses of a global, a static, a local and a malloc'd pointer. Match each to a region.", "Run <code>arm-none-eabi-size</code> and <code>nm</code> on your ELF and place every symbol in flash or RAM.", "Cause a stack overflow on purpose and watch what it overwrites.", "Read a 32-bit value one byte at a time to see endianness."],
+      done: "Every symbol in your program has a known address region and a reason.",
+      qs: [], note: "" },
+    { title: "Pipelining and branches", sub: "stages, hazards, branch cost", los: "LO 7", status: "todo",
+      picture: "A doodle of three instructions sliding through fetch, decode, execute, with a bubble when a branch is taken.",
+      ideas: [],
+      read: ["Harris &amp; Harris: the pipelined processor section (hazards, forwarding, stalls).", "Cortex-M4 TRM: the 3-stage pipeline and branch timing."],
+      practice: ["On paper, draw a 5-instruction sequence through a 3-stage pipeline with one taken branch.", "Predict the cost of a taken vs not-taken branch, then measure it in sub-chunk 8."],
+      done: "You can say why a taken branch costs extra cycles, with a diagram.",
+      qs: [], note: "" },
+    { title: "Memory hierarchy and speed", sub: "wait states, ART accelerator", los: "LO 8", status: "todo",
+      picture: "A doodle of CPU, ART cache and prefetch, flash with its wait states, and SRAM, with arrows showing which path is fast.",
+      ideas: [],
+      read: ["Harris &amp; Harris: the memory systems chapter (locality, caches).", "RM0390: the flash interface, <code>FLASH_ACR</code> (LATENCY, PRFTEN, ICEN, DCEN).", "Datasheet: wait states required per supply voltage and clock."],
+      practice: ["Write the wait-state table for 180 MHz at your supply voltage from the datasheet.", "Predict how a flash loop slows with fewer wait states or the cache off. Measure in sub-chunk 8."],
+      done: "You can explain what each <code>FLASH_ACR</code> bit changes and why.",
+      qs: [], note: "" },
+    { title: "Timing, determinism and the lab", sub: "CPI, int vs FPU, jitter", los: "LO 9", status: "todo",
+      picture: "A doodle of a timeline with a control loop firing every 1 ms and the cycle budget it must fit inside.",
+      ideas: [],
+      read: ["Cortex-M4 TRM and ARMv7-M reference: the DWT cycle counter registers.", "PM0214: cycle counts for multiply and divide, FPU behavior."],
+      practice: ["Do the cycle-counting lab below. Predict each number first, then measure."],
+      done: "Every measured number has a reason that comes from the architecture.",
+      qs: [], note: "" }
+  ]
+};
+
+(function(){
+  var los = document.getElementById('los');
+  BOARD.los.forEach(function(t,i){
+    var li = document.createElement('li');
+    li.innerHTML = '<span class="n">'+(i+1)+'.</span><span>'+t+'</span>';
+    los.appendChild(li);
+  });
+
+  var dots = document.getElementById('dots'), done = 0, nowSet = false;
+  BOARD.chunks.forEach(function(c,i){
+    var cls = c.status === 'done' ? 'done' : '';
+    if(c.status === 'done') done++;
+    else if(!nowSet){ cls = 'now'; nowSet = true; }
+    var li = document.createElement('li');
+    li.className = cls;
+    li.innerHTML = '<a href="#c'+(i+1)+'"><b>'+(i+1)+'</b>'+c.title+'<span class="st">'+(c.status==='done'?'done':cls==='now'?'next up':'not started')+'</span></a>';
+    dots.appendChild(li);
+  });
+  document.getElementById('count').textContent = done + ' of ' + BOARD.chunks.length + ' sub-chunks done';
+
+  function list(a){ return '<ul>'+a.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'; }
+  function panel(title, body, filled, wide){
+    return '<article class="panel'+(filled?'':' todo')+(wide?' wide':'')+'"><h3>'+title+'</h3>'+body+'</article>';
+  }
+  var root = document.getElementById('chapters');
+  var bank = [];
+  BOARD.chunks.forEach(function(c,i){
+    var s = document.createElement('section');
+    s.className = 'chapter'; s.id = 'c'+(i+1);
+    var stamp = c.status==='done' ? '<span class="stamp yes">done</span>' : '<span class="stamp later">to fill</span>';
+    var html = '<div class="chead"><span class="tag">sub-chunk '+(i+1)+'/8 · '+c.los+'</span>'+stamp+'</div>'+
+               '<h2>'+c.title+' <span class="small">'+c.sub+'</span></h2><div class="grid">';
+    html += panel('The picture', c.picturedone ? c.picturedone : '<p class="small">to draw: '+c.picture+'</p>', !!c.picturedone);
+    html += panel('Key ideas', c.ideas.length ? list(c.ideas) : '<p class="small">Filled while we study this sub-chunk. Physical picture first, formulas after.</p>', c.ideas.length>0);
+    html += panel('Read', list(c.read), true);
+    html += panel('Practice', list(c.practice)+'<p><span class="stamp check">done when</span>'+c.done+'</p>', true);
+    html += panel('Interview questions', c.qs.length ? '<ol>'+c.qs.map(function(q){return '<li>'+q+'</li>';}).join('')+'</ol>' : '<p class="small">Added when this sub-chunk is taught.</p>', c.qs.length>0);
+    html += panel('Explain it back', c.note ? '<p>'+c.note+'</p>' : '<p class="small">Five lines, written without looking. If you can\'t, we revisit.</p>', !!c.note);
+    html += '</div>';
+    s.innerHTML = html;
+    root.appendChild(s);
+    c.qs.forEach(function(q){ bank.push(q); });
+  });
+  if(bank.length){
+    var b = document.getElementById('bankbox');
+    b.className = 'panel wide';
+    b.innerHTML = '<ol>'+bank.map(function(q){return '<li>'+q+'</li>';}).join('')+'</ol>';
+  }
+})();
+</script>

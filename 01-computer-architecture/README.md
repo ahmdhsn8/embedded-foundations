@@ -1,7 +1,9 @@
 # Topic 1: Computer architecture
 
 Eight sub-chunks, done in order. Each folder has a `notes.md` to fill in and a `src/` for code.
-Companion board (picture, reading list, progress): see `docs/links.md`.
+Project: cycle-counting lab (DWT counter, predict then measure every number)
+
+Illustration board: `boards/01-computer-architecture.html`.
 
 | # | Sub-chunk | Done |
 |---|---|---|
