@@ -1,0 +1,7 @@
+# Start GDB with:  arm-none-eabi-gdb -x tools/gdbinit build/app.elf
+target extended-remote :3333
+monitor reset halt
+set pagination off
+define regs
+  info registers
+end
