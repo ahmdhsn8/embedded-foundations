@@ -52,9 +52,11 @@ The CPU is a clocked machine that does one loop forever: point at memory, read a
 At 180 MHz a 20 kHz control loop has 180 000 000 / 20 000 = **9 000 cycles** per period. ADC read, Clarke/Park, PI, and PWM update all have to fit inside it. "Roughly one simple instruction per cycle" is the first number you budget with; sub-chunks 7 and 8 show what makes it worse.
 
 ## Read
-- Harris & Harris (ARM Edition), microarchitecture chapter: the single-cycle processor (datapath + control). Record the section numbers you used.
-- Patterson & Hennessy (ARM Edition), "The Processor" chapter opening, as a second angle.
-- PM0214: the processor core register summary and the xPSR (APSR flags) description.
+All links: [the Material page](../../material.html).
+
+- [Harris & Harris (ARM Edition)](https://shop.elsevier.com/books/digital-design-and-computer-architecture/harris/9780128000564), microarchitecture chapter: the single-cycle processor (datapath + control). Record the section numbers you used.
+- [Patterson & Hennessy (ARM Edition)](https://shop.elsevier.com/books/computer-organization-and-design-arm-edition/patterson/978-0-12-801733-3), "The Processor" chapter opening, as a second angle.
+- [PM0214](https://www.st.com/resource/en/programming_manual/pm0214-stm32-cortexm4-mcus-and-mpus-programming-manual-stmicroelectronics.pdf): the processor core register summary and the xPSR (APSR flags) description.
 
 ## Practice
 Paper trace, no board needed. Predict PC, r0 to r3 and N Z C after each line, then check it in GDB later with `stepi`.
