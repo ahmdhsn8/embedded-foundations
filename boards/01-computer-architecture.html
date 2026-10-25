@@ -96,30 +96,30 @@ ul,ol{margin:0;padding-left:24px;display:grid;gap:4px}
   <section class="chapter" id="material">
     <span class="tag">the shelf</span>
     <h2>Material</h2>
-    <p class="small">Explanatory reading builds the picture. The manuals are the ground truth. Check section numbers against your own edition, they shift between editions.</p>
+    <p class="small">Free and open material only. Explanatory reading builds the picture; the manuals are the ground truth.</p>
     <div class="grid">
       <article class="panel">
-        <h3>Main text</h3>
+        <h3>Open books</h3>
         <ul>
-          <li><b>Harris &amp; Harris, <i>Digital Design and Computer Architecture: ARM Edition</i></b>. The architecture, microarchitecture and memory-system chapters (about 6, 7 and 8). Main source for sub-chunks 1, 3, 6, 7.</li>
-          <li><b>Patterson &amp; Hennessy, <i>Computer Organization and Design: ARM Edition</i></b>. Backup and depth for the processor, pipelining and caches.</li>
+          <li><b><a href="https://diveintosystems.org/book/"><i>Dive into Systems</i></a></b> (free, CC BY-NC-ND). Chapter 5 architecture and pipelining, chapter 11 memory hierarchy, chapter 4 binary. Main text.</li>
+          <li><b>Azeria Labs, <a href="https://azeria-labs.com/writing-arm-assembly-part-1/">Writing ARM Assembly</a></b>. Free 7-part series on registers, memory access, branches and the stack.</li>
+          <li><b>Memfault, <a href="https://interrupt.memfault.com/blog/zero-to-main-1">From Zero to main()</a></b>. Free. Memory layout and startup.</li>
         </ul>
       </article>
       <article class="panel">
-        <h3>Embedded-specific</h3>
+        <h3>ARM, free</h3>
         <ul>
-          <li><b>Yiu, <i>The Definitive Guide to ARM Cortex-M3/M4</i></b>. Registers, memory map, stack, instruction set, exceptions. Main source for sub-chunks 2, 4, 5.</li>
-          <li><b>Memfault Interrupt, "From Zero to main()"</b>. Free blog series on startup, linker scripts and memory layout. Sub-chunk 5.</li>
-          <li><b>AAPCS</b> (ARM Procedure Call Standard, free PDF from ARM). Sub-chunk 2.</li>
+          <li><b><a href="https://developer.arm.com/documentation/dui0553/latest/">DUI0553, Cortex-M4 Generic User Guide</a></b>: programmer's model, memory model, instructions.</li>
+          <li><b><a href="https://developer.arm.com/documentation/100166/0001">Cortex-M4 TRM</a></b>: the 3-stage pipeline and the DWT cycle counter.</li>
+          <li><b><a href="https://github.com/ARM-software/abi-aa/blob/main/aapcs32/aapcs32.rst">AAPCS</a></b>: calling convention.</li>
         </ul>
       </article>
       <article class="panel">
-        <h3>Ground truth (free PDFs)</h3>
+        <h3>ST, free (ground truth)</h3>
         <ul>
-          <li><b>RM0390</b>: memory organization, boot configuration, flash interface (wait states, ART accelerator).</li>
-          <li><b>PM0214</b>: core registers, memory model, instruction set.</li>
-          <li><b>STM32F446 datasheet</b>: clock limits against wait states.</li>
-          <li><b>Cortex-M4 Technical Reference Manual</b>: the 3-stage pipeline and the DWT cycle counter.</li>
+          <li><b><a href="https://www.st.com/resource/en/reference_manual/rm0390-stm32f446xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">RM0390</a></b>: memory organization, boot configuration, flash interface.</li>
+          <li><b><a href="https://www.st.com/resource/en/programming_manual/pm0214-stm32-cortexm4-mcus-and-mpus-programming-manual-stmicroelectronics.pdf">PM0214</a></b>: core registers, memory model, instruction set.</li>
+          <li><b><a href="https://www.st.com/resource/en/datasheet/stm32f446re.pdf">STM32F446 datasheet</a></b>: clock limits against wait states.</li>
         </ul>
       </article>
       <article class="panel">
@@ -194,56 +194,56 @@ var BOARD = {
     { title: "The CPU as a machine", sub: "fetch, decode, execute", los: "LO 1", status: "doing",
       picture: "A doodle of the loop: PC points at memory, instruction comes back, decoder lights up the ALU or a register, PC moves on.",
       ideas: ["Memory is one numbered wall of boxes: code, data and peripherals all have addresses.", "Registers are the CPU's hands: the ALU only works on registers (load/store architecture).", "PC (R15) points at the next instruction. It moves by +2/+4, by a branch, or by an exception/reset loading a vector.", "Fetch: PC out to flash, instruction bits back. Decode: bits set the switches. Execute: ALU result to a register, flags N Z C V update.", "At reset the core loads SP from address 0 and PC from address 4 (flash aliased at 0 on the STM32).", "3-stage pipeline: about one simple instruction per clock, so 9000 cycles per period for a 20 kHz loop at 180 MHz."],
-      read: ["Harris &amp; Harris: the single-cycle processor (datapath + control), chapter 7 start.", "Patterson &amp; Hennessy: \"The Processor\" chapter, same topic, as a second angle.", "PM0214: the first pages of the programmer's model."],
+      read: ["<i>Dive into Systems</i> 5.2 von Neumann, 5.5 Building a Processor, 5.6 Execution of Program Instructions.", "PM0214: core register summary and the APSR flags.", "Optional: DUI0553 Generic User Guide, Programmers model."],
       practice: ["Pick 5 Thumb instructions. On paper, trace PC and every register after each one.", "Optional on the board: single-step with <code>stepi</code> in GDB and watch PC and R0-R3 change."],
       done: "You can trace a 5-instruction program by hand and match it to GDB.",
       qs: ["Walk me through what the CPU does to execute one instruction.", "What is the program counter, and what can change it?", "Where does the first instruction address come from after reset?", "Harvard vs von Neumann: which is the Cortex-M4, and what does it buy you?", "What are N, Z, C, V, and how does a conditional branch use them?", "A 20 kHz control loop on a 180 MHz MCU: how many cycles, and what eats them?"], note: "" },
     { title: "Registers and the Cortex-M4 programmer's model", sub: "R0-R12, SP, LR, PC, flags", los: "LO 2", status: "todo",
       picture: "A doodle of the register file: R0-R3 args, R4-R11 saved, R12, SP, LR, PC, xPSR with its flag bits.",
       ideas: [],
-      read: ["PM0214: core registers, xPSR flags, the two stack pointers (MSP, PSP).", "Yiu: the registers chapter.", "AAPCS: argument passing and callee-saved registers."],
+      read: ["PM0214: core registers, xPSR flags, the two stack pointers (MSP, PSP).", "DUI0553: Programmers model.", "AAPCS: argument passing and callee-saved registers."],
       practice: ["Write a C function with 6 integer arguments. Compile with <code>-S</code>. Predict which args use registers and which use the stack, then check.", "In GDB run <code>info registers</code> before and after a call."],
       done: "You can predict where each argument and the return value live for any small function.",
       qs: [], note: "" },
     { title: "Instructions and Thumb-2", sub: "C to assembly", los: "LO 2, 3", status: "todo",
       picture: "A doodle of one C line next to the 2 or 3 instructions it becomes, with load and store arrows to memory.",
       ideas: [],
-      read: ["PM0214: instruction set summary (load/store, arithmetic, branch).", "Yiu: the instruction set chapters.", "Harris &amp; Harris: the ARM assembly language section of the architecture chapter."],
+      read: ["Azeria Labs, Writing ARM Assembly parts 1 to 4.", "PM0214: instruction set summary (load/store, arithmetic, branch).", "<i>Dive into Systems</i> chapter 6, assembly concepts."],
       practice: ["Compile five tiny C functions (sum loop, array copy, struct access, if/else, function pointer call) with <code>-O0</code> and <code>-O2</code>.", "Annotate every instruction with a comment. Use <code>arm-none-eabi-objdump -d</code>."],
       done: "You can annotate a 10-line function's assembly with no help.",
       qs: [], note: "" },
     { title: "Memory and the STM32F446 memory map", sub: "flash, SRAM, peripherals", los: "LO 3, 4", status: "todo",
       picture: "A doodle of the 4 GB address line with flash, SRAM, peripheral and core regions marked with their start addresses.",
       ideas: [],
-      read: ["RM0390: memory organization and the register boundary address table; boot configuration.", "PM0214: the memory model (regions, bit-banding).", "Yiu: the memory system chapter."],
+      read: ["RM0390: memory organization and the register boundary address table; boot configuration.", "PM0214: the memory model (regions, bit-banding).", "DUI0553: Memory model."],
       practice: ["Toggle the Nucleo LED from GDB with no program logic. Enable the GPIOA clock at <code>0x40023830</code> (RCC AHB1ENR bit 0), set pin 5 as output in <code>0x40020000</code> (GPIOA MODER), then write bit 5 of <code>0x40020014</code> (GPIOA ODR).", "Draw the memory map from RM0390 with real addresses."],
       done: "The LED toggles from GDB memory writes alone, and you can say why that works.",
       qs: [], note: "" },
     { title: "Stack, heap and data layout", sub: "endianness, alignment, .text .data .bss", los: "LO 5, 6, 10", status: "todo",
       picture: "A doodle of RAM with the stack growing down from the top, the heap growing up, and .data and .bss at the bottom, flash holding .text and the .data initial values.",
       ideas: [],
-      read: ["Memfault Interrupt: the \"From Zero to main()\" posts on memory layout.", "Yiu: the stack and exception stack frame sections.", "PM0214: unaligned access behavior."],
+      read: ["Memfault Interrupt: From Zero to main().", "<i>Dive into Systems</i> chapter 2 (stack and heap) and chapter 4 (endianness).", "PM0214: stack and unaligned access behavior."],
       practice: ["Print the addresses of a global, a static, a local and a malloc'd pointer. Match each to a region.", "Run <code>arm-none-eabi-size</code> and <code>nm</code> on your ELF and place every symbol in flash or RAM.", "Cause a stack overflow on purpose and watch what it overwrites.", "Read a 32-bit value one byte at a time to see endianness."],
       done: "Every symbol in your program has a known address region and a reason.",
       qs: [], note: "" },
     { title: "Pipelining and branches", sub: "stages, hazards, branch cost", los: "LO 7", status: "todo",
       picture: "A doodle of three instructions sliding through fetch, decode, execute, with a bubble when a branch is taken.",
       ideas: [],
-      read: ["Harris &amp; Harris: the pipelined processor section (hazards, forwarding, stalls).", "Cortex-M4 TRM: the 3-stage pipeline and branch timing."],
+      read: ["<i>Dive into Systems</i> 5.7 Pipelining and 5.8 Advanced Pipelining.", "Cortex-M4 TRM: the 3-stage pipeline and branch timing."],
       practice: ["On paper, draw a 5-instruction sequence through a 3-stage pipeline with one taken branch.", "Predict the cost of a taken vs not-taken branch, then measure it in sub-chunk 8."],
       done: "You can say why a taken branch costs extra cycles, with a diagram.",
       qs: [], note: "" },
     { title: "Memory hierarchy and speed", sub: "wait states, ART accelerator", los: "LO 8", status: "todo",
       picture: "A doodle of CPU, ART cache and prefetch, flash with its wait states, and SRAM, with arrows showing which path is fast.",
       ideas: [],
-      read: ["Harris &amp; Harris: the memory systems chapter (locality, caches).", "RM0390: the flash interface, <code>FLASH_ACR</code> (LATENCY, PRFTEN, ICEN, DCEN).", "Datasheet: wait states required per supply voltage and clock."],
+      read: ["<i>Dive into Systems</i> chapter 11, the memory hierarchy.", "RM0390: the flash interface, <code>FLASH_ACR</code> (LATENCY, PRFTEN, ICEN, DCEN).", "Datasheet: wait states required per supply voltage and clock."],
       practice: ["Write the wait-state table for 180 MHz at your supply voltage from the datasheet.", "Predict how a flash loop slows with fewer wait states or the cache off. Measure in sub-chunk 8."],
       done: "You can explain what each <code>FLASH_ACR</code> bit changes and why.",
       qs: [], note: "" },
     { title: "Timing, determinism and the lab", sub: "CPI, int vs FPU, jitter", los: "LO 9", status: "todo",
       picture: "A doodle of a timeline with a control loop firing every 1 ms and the cycle budget it must fit inside.",
       ideas: [],
-      read: ["Cortex-M4 TRM and ARMv7-M reference: the DWT cycle counter registers.", "PM0214: cycle counts for multiply and divide, FPU behavior."],
+      read: ["Cortex-M4 TRM: the DWT cycle counter registers.", "PM0214: cycle counts for multiply and divide, FPU behavior."],
       practice: ["Do the cycle-counting lab below. Predict each number first, then measure."],
       done: "Every measured number has a reason that comes from the architecture.",
       qs: [], note: "" }

@@ -54,9 +54,9 @@ At 180 MHz a 20 kHz control loop has 180 000 000 / 20 000 = **9 000 cycles** per
 ## Read
 All links: [the Material page](../../material.html).
 
-- [Harris & Harris (ARM Edition)](https://shop.elsevier.com/books/digital-design-and-computer-architecture/harris/9780128000564), microarchitecture chapter: the single-cycle processor (datapath + control). Record the section numbers you used.
-- [Patterson & Hennessy (ARM Edition)](https://shop.elsevier.com/books/computer-organization-and-design-arm-edition/patterson/978-0-12-801733-3), "The Processor" chapter opening, as a second angle.
-- [PM0214](https://www.st.com/resource/en/programming_manual/pm0214-stm32-cortexm4-mcus-and-mpus-programming-manual-stmicroelectronics.pdf): the processor core register summary and the xPSR (APSR flags) description.
+- *Dive into Systems*, chapter 5: [5.2 The von Neumann Architecture](https://diveintosystems.org/book/C5-Arch/von.html), [5.5 Building a Processor](https://diveintosystems.org/book/C5-Arch/cpu.html), [5.6 The Processor's Execution of Program Instructions](https://diveintosystems.org/book/C5-Arch/instrexec.html). Skim [5.4 Circuits](https://diveintosystems.org/book/C5-Arch/circuits.html) if the ALU and registers feel abstract.
+- [PM0214](https://www.st.com/resource/en/programming_manual/pm0214-stm32-cortexm4-mcus-and-mpus-programming-manual-stmicroelectronics.pdf): the core register summary and the APSR (flags) description.
+- Optional, same content from ARM: [DUI0553, Cortex-M4 Generic User Guide](https://developer.arm.com/documentation/dui0553/latest/), "Programmers model".
 
 ## Practice
 Paper trace, no board needed. Predict PC, r0 to r3 and N Z C after each line, then check it in GDB later with `stepi`.
