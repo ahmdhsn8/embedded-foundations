@@ -191,13 +191,13 @@ var BOARD = {
     "Explain how .text, .data and .bss map onto flash and RAM."
   ],
   chunks: [
-    { title: "The CPU as a machine", sub: "fetch, decode, execute", los: "LO 1", status: "todo",
+    { title: "The CPU as a machine", sub: "fetch, decode, execute", los: "LO 1", status: "doing",
       picture: "A doodle of the loop: PC points at memory, instruction comes back, decoder lights up the ALU or a register, PC moves on.",
-      ideas: [],
+      ideas: ["Memory is one numbered wall of boxes: code, data and peripherals all have addresses.", "Registers are the CPU's hands: the ALU only works on registers (load/store architecture).", "PC (R15) points at the next instruction. It moves by +2/+4, by a branch, or by an exception/reset loading a vector.", "Fetch: PC out to flash, instruction bits back. Decode: bits set the switches. Execute: ALU result to a register, flags N Z C V update.", "At reset the core loads SP from address 0 and PC from address 4 (flash aliased at 0 on the STM32).", "3-stage pipeline: about one simple instruction per clock, so 9000 cycles per period for a 20 kHz loop at 180 MHz."],
       read: ["Harris &amp; Harris: the single-cycle processor (datapath + control), chapter 7 start.", "Patterson &amp; Hennessy: \"The Processor\" chapter, same topic, as a second angle.", "PM0214: the first pages of the programmer's model."],
       practice: ["Pick 5 Thumb instructions. On paper, trace PC and every register after each one.", "Optional on the board: single-step with <code>stepi</code> in GDB and watch PC and R0-R3 change."],
       done: "You can trace a 5-instruction program by hand and match it to GDB.",
-      qs: [], note: "" },
+      qs: ["Walk me through what the CPU does to execute one instruction.", "What is the program counter, and what can change it?", "Where does the first instruction address come from after reset?", "Harvard vs von Neumann: which is the Cortex-M4, and what does it buy you?", "What are N, Z, C, V, and how does a conditional branch use them?", "A 20 kHz control loop on a 180 MHz MCU: how many cycles, and what eats them?"], note: "" },
     { title: "Registers and the Cortex-M4 programmer's model", sub: "R0-R12, SP, LR, PC, flags", los: "LO 2", status: "todo",
       picture: "A doodle of the register file: R0-R3 args, R4-R11 saved, R12, SP, LR, PC, xPSR with its flag bits.",
       ideas: [],
@@ -279,7 +279,7 @@ var BOARD = {
   BOARD.chunks.forEach(function(c,i){
     var s = document.createElement('section');
     s.className = 'chapter'; s.id = 'c'+(i+1);
-    var stamp = c.status==='done' ? '<span class="stamp yes">done</span>' : '<span class="stamp later">to fill</span>';
+    var stamp = c.status==='done' ? '<span class="stamp yes">done</span>' : c.status==='doing' ? '<span class="stamp later">studying now</span>' : '<span class="stamp no">to fill</span>';
     var html = '<div class="chead"><span class="tag">sub-chunk '+(i+1)+'/8 · '+c.los+'</span>'+stamp+'</div>'+
                '<h2>'+c.title+' <span class="small">'+c.sub+'</span></h2><div class="grid">';
     html += panel('The picture', c.picturedone ? c.picturedone : '<p class="small">to draw: '+c.picture+'</p>', !!c.picturedone);
